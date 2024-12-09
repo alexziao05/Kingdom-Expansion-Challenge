@@ -123,8 +123,8 @@ int Graph::primMST(vector<int>& mstStart, vector<int>& mstEnd) {
 
             }
         }
-        mstStart.push_back(r);
-        mstEnd.push_back(c);
+        mstStart.push_back(r+1);
+        mstEnd.push_back(c+1);
         visited_array[c] = true; 
         n_edges++; 
         totalCost += adjMatrix[r][c]; 
