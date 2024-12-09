@@ -4,6 +4,9 @@
 #include <sstream>
 using namespace std; // Now we can use standard library names without the `std::` prefix
 
+// Global Variables
+int numEdges;
+
 // Load the graph from a file
 bool Graph::loadGraphFromFile(const string& filename) {
     ifstream infile(filename);
@@ -12,9 +15,6 @@ bool Graph::loadGraphFromFile(const string& filename) {
     }
 
     // Get numEdges and numNodes
-    int numEdges;
-    int numNodes;
-
     string firstline; 
     if (infile.is_open()) {
         getline(infile, firstline);
@@ -32,12 +32,56 @@ bool Graph::loadGraphFromFile(const string& filename) {
         cout << "Number of edges: " << numEdges << endl;
     } 
 
-    // Get []
+    // Get <u> <v> <weight>, where <u> is the starting vertex, <v> is the ending vertex, and <weight> 
+    string line; 
+    vector<vector<int>> temp_adjMatrix; 
+    if (infile.is_open()) {
+        while(getline(infile, line)) {
+            vector<int>temp_adj_matrix; 
+            stringstream values(line); 
+            string value; 
+            char delimiter = ' '; 
+            while(getline(values, value, delimiter)) {
+                temp_adj_matrix.push_back(stoi(value)); 
+            }   
+            temp_adjMatrix.push_back(temp_adj_matrix);
+        }
+    }
 
-    // Implement the adjacency matrix setup
+    // Print temp_adjMatrix to make sure everything is inputted correctly 
+    for (const auto& row : temp_adjMatrix) {
+        for (int elem : row) {
+            cout << elem << " "; 
+        }
+        cout << endl; 
+    }
 
     // Comment this line before submission
     cout << "TODO: Implement adjacency matrix initialization here.\n";
+
+    adjMatrix.resize(numNodes, vector<int>(numNodes, 0)); 
+    // Implement the adjacency matrix setup
+    for (const auto& column: temp_adjMatrix) {
+        int node1 = column[0]; 
+        int node2 = column[1]; 
+        int weight = column[2]; 
+
+        if (node1 >= 0 && node1 < numNodes + 1 && node2 >= 0 && node2 < numNodes + 1) {
+            adjMatrix[node1-1][node2-1] = weight;
+            adjMatrix[node2-1][node1-1] = weight;
+        } else {
+            cout << "Invalid node index: " << node1 << " or " << node2 << endl;
+        }
+    }
+
+    // Print final adjacency matrix: 
+    cout << "Adjacency Matrix:" << endl;
+    for (const auto& row : adjMatrix) {
+        for (int value : row) {
+            cout << value << " ";
+        }
+        cout << endl;
+    }
 
     infile.close();
     return true;
@@ -47,6 +91,8 @@ bool Graph::loadGraphFromFile(const string& filename) {
 int Graph::primMST(vector<int>& mstStart, vector<int>& mstEnd) {
     // Placeholder for visited nodes and minimum weight initialization
     cout << "TODO: Implement Prim's algorithm here.\n";
+
+    // Definition of MST 
 
     // Steps:
     // 1. Initialize visited array and minWeight array
