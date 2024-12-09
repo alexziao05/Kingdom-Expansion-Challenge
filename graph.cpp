@@ -101,7 +101,6 @@ int Graph::primMST(vector<int>& mstStart, vector<int>& mstEnd) {
     visited_array[0] = true; // Start with the 0th vertex
     // 3. Use a loop to find the minimum weight edge at each step
     // MST Edges = Vertices - 1 
-    cout << "Edge : Weight\n"; 
     int n_edges = 0; 
     int totalCost = 0; 
     while (n_edges < numNodes - 1) { // Make sure each vertex is hit at least once (Definition of MST)
